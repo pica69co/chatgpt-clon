@@ -104,6 +104,12 @@ nav {
     height: 100%;
 }
 
+.history li {
+    list-style: none;
+    padding: 15px 0;
+    cursor: pointer;
+}
+
 .history p {
     cursor: pointer;
 }

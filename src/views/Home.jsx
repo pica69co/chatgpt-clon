@@ -1,7 +1,36 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import styles from '../views/Home.module.css' 
 const Home = () => {
-  return (
+  const [value, setValue] = useState(null)
+  const [message, setMessage] = useState(null)
+
+  useEffect = () => {
+  
+  }
+  const getMessages = async () => {
+    console.log('clicked');
+    const options = {
+        method: 'POST',
+        body: JSON.stringify({
+            message: 'Hello how are you?'
+        }),
+        Headers: {
+            'Content-Type': 'application/json'
+        }
+    }
+    
+    try {
+        const response = await fetch('http://localhost:8000/completions', options)
+        const data = await response.json()
+        console.log(data);
+        setMessage(data.choices[0].message);
+        
+    } catch (error) {
+        console.log(error);
+    }
+  }
+  
+   return (
     <div className={styles.container}> 
     <section className={styles.sideBar}>
         <button><span>+</span>{' '}New chat</button>
@@ -16,8 +45,14 @@ const Home = () => {
         <p id='' className={styles.output}></p>
         <div className={styles.btnSection}>
             <div className={styles.inputContainer}>
-                <input/>
-                <div className={styles.submit}>➢</div>
+                <input 
+                 value={value}
+                 
+                />
+                <div 
+                    className={styles.submit}
+                    onClick={getMessages}
+                    >➢</div>
             </div>
             <p className={styles.info}>
                 Chat GPT academic version. Free Research Preview. ChatGPT July 8 version 
