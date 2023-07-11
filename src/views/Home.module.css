@@ -113,3 +113,27 @@ nav {
 .history p {
     cursor: pointer;
 }
+
+.feed{
+    overflow: scroll;
+    width: 100%;
+    padding: 0;
+}
+
+.feed > li {
+    display: flex;
+    padding: 20px;
+    background-color: #444654;
+    width: 100%;
+    margin: 20px 0;
+}
+
+.feed > p {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 14px;
+    text-align: left;
+}
+
+.feed > p.role {
+    min-width: 100px;
+}

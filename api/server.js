@@ -1,14 +1,16 @@
 const express = require('express');
 const cors = require('cors');
+require('dotenv').config()
+
 const PORT = process.env.PORT || 8000
-const CHAT_API_KEY="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"
+const CHAT_API_KEY = process.env.API_KEY
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
 
-//console.log(CHAT_API_KEY);
+
 app.post('/completions', async (req, res) => {
     const options = {
         method: 'POST',
@@ -18,7 +20,7 @@ app.post('/completions', async (req, res) => {
         },
         body: JSON.stringify({
             model: "gpt-3.5-turbo",
-            messages: [{ role: "user", content: 'how are you?'}],
+            messages: [{ role: "user", content: req.body.message }],
             max_tokens: 7,
         })
     }
@@ -29,6 +31,7 @@ app.post('/completions', async (req, res) => {
         res.send(data);
     } catch (error) {
         console.log(error);
+        res.send(error);
     }
 })
 

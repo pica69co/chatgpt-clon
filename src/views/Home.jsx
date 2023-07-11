@@ -3,16 +3,34 @@ import styles from '../views/Home.module.css'
 const Home = () => {
   const [value, setValue] = useState(null)
   const [message, setMessage] = useState(null)
+  const [previousChat, setPreviousChat] = useState([])
+  const [currentTitle, setCurrentTitle] = useState(null)
+    const [error, setError] = useState(null)
 
-  useEffect = () => {
-  
-  }
+  useEffect = ( () => {
+    console.log(currentTitle, value, message);
+    !currentTitle && value && message && setCurrentTitle(value)
+    if(currentTitle && value && message){
+        setPreviousChat(previousChat => [...previousChat, 
+            {
+                title: currentTitle, 
+                role: "user",
+                content: value    
+            },
+            {
+                title: currentTitle, 
+                role: message.rol,
+                content: message.content
+            }
+        ])
+    }
+  }, [message, currentTitle])
   const getMessages = async () => {
     console.log('clicked');
     const options = {
         method: 'POST',
         body: JSON.stringify({
-            message: 'Hello how are you?'
+            message: value
         }),
         Headers: {
             'Content-Type': 'application/json'
@@ -27,27 +45,63 @@ const Home = () => {
         
     } catch (error) {
         console.log(error);
+        setError(error);
     }
   }
+
+  const createNewChat = () => {
+    console.log('clicked');
+    setMessage(null)
+    setValue("")
+    setCurrentTitle(null)
+
+  }
+
+  const handleClick = (uniqueTitle) => {
+    setCurrentTitle(uniqueTitle)
+    setMessage(null)
+    setValue("")
+  }
+
+  const currentChat = previousChat.filter(previous => previous.title === currentTitle)
   
+  const uniqueTitles = Array.from(new Set(previousChat.map(previous => previous.title)))
+
+  console.log('value: ', value);
+  console.log('message: ', message);
+  console.log('previpreviousChat: ',previousChat);
+
    return (
     <div className={styles.container}> 
     <section className={styles.sideBar}>
-        <button><span>+</span>{' '}New chat</button>
-        <div className={styles.history}>
-
-
-        </div>
+        <button
+            onClick={createNewChat}
+        ><span>+</span>{' '}New chat</button>
+        <ul className={styles.history}>
+             {uniqueTitles?.map((uniqueTitle, index) => 
+             <li 
+                key={index}
+                onClick={()=>handleClick(uniqueTitle)}
+                >{uniqueTitle}</li>)}
+        </ul>
         <nav className={styles.nav}><p>Made by &copy;pica</p></nav>
     </section>
+
     <section className={styles.main}>
-        <h1>picaGPT</h1>
-        <p id='' className={styles.output}></p>
+        {!currentTitle && <h1>picaGPT</h1>}
+        <ul className={styles.feed}>
+            {error && <p className={styles.error}>Upss, Something went wrong!...</p>}
+            {currentChat.map((chatMessage, index) => <li key={index}>
+                <p className={styles.rol}>{chatMessage.rol}</p>
+                <p className={styles.content}>{chatMessage.content}</p>
+            </li>)}
+        </ul>
+        
         <div className={styles.btnSection}>
             <div className={styles.inputContainer}>
                 <input 
                  value={value}
-                 
+                 onChange={e=>setValue(e.target.value)}
                 />
                 <div 
                     className={styles.submit}
