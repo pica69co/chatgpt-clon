@@ -66,7 +66,7 @@ const Home = () => {
   const currentChat = previousChat.filter(previous => previous.title === currentTitle)
   
   const uniqueTitles = Array.from(new Set(previousChat.map(previous => previous.title)))
-
+  const owner = '{6|9}'
   console.log('value: ', value);
   console.log('message: ', message);
   console.log('previpreviousChat: ',previousChat);
@@ -84,11 +84,11 @@ const Home = () => {
                 onClick={()=>handleClick(uniqueTitle)}
                 >{uniqueTitle}</li>)}
         </ul>
-        <nav className={styles.nav}><p>Made by &copy;pica</p></nav>
+        <nav className={styles.nav}><p>Made by &copy;{owner}</p></nav>
     </section>
 
     <section className={styles.main}>
-        {!currentTitle && <h1>picaGPT</h1>}
+        {!currentTitle && <h1>{owner}GPT</h1>}
         <ul className={styles.feed}>
             {error && <p className={styles.error}>Upss, Something went wrong!...</p>}
             {currentChat.map((chatMessage, index) => <li key={index}>
