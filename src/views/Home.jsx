@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 // import { sendMsgToOpenAI } from '../../api/openai'
 import styles from '../views/Home.module.css' 
 import chatLogo from '../assets/chatgptLogo.svg'
@@ -10,6 +10,8 @@ import rocket from '../assets/rocket.svg'
 import sendBtn from '../assets/send.svg'
 
 const Home = () => {
+  const msgEnd = useRef(null)
+
   const [value, setValue] = useState(null)
   const [message, setMessage] = useState(null)
   const [previousChat, setPreviousChat] = useState([])
@@ -17,7 +19,7 @@ const Home = () => {
     const [error, setError] = useState(null)
 
   useEffect = ( () => {
-    console.log(currentTitle, value, message);
+    // console.log(currentTitle, value, message);
     !currentTitle && value && message && setCurrentTitle(value)
     if(currentTitle && value && message){
         setPreviousChat(previousChat => [...previousChat, 
@@ -33,9 +35,11 @@ const Home = () => {
             }
         ])
     }
+    msgEnd.current.scrollIntoView()
   }, [message, currentTitle])
+  
   const getMessages = async () => {
-    console.log('clicked');
+    //console.log('clicked');
     const options = {
         method: 'POST',
         body: JSON.stringify({
@@ -49,7 +53,7 @@ const Home = () => {
     try {
         const response = await fetch('http://localhost:8000/completions', options)
         const data = await response.json()
-        console.log(data);
+        //console.log(data);
         setMessage(data.choices[0].message);
         
     } catch (error) {
@@ -114,7 +118,7 @@ const Home = () => {
                 <p className={styles.content}>{chatMessage.content}</p>
             </li>)}
         </ul>
-        
+        <div ref={msgEnd}/>
         <div className={styles.btnSection}>
             <div className={styles.inputContainer}>
                 <input 

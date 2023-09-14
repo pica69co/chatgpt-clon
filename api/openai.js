@@ -1,10 +1,10 @@
+require('dotenv').config()
 // This configuration file is not used now,  only by information. 
 // however, it is more easy in this way.
 
 const { Configuration, OpenAIApi } = require('openai')
-const configuration = new Configuration({apiKey:''})
+const configuration = new Configuration({ apiKey:process.env.API_KEY })
 const openai = new OpenAIApi(configuration)
-
 export async function sendMsgToOpenAI(message) {
     const res = await openai.createCompletion({
         model: 'text-davinci-003',
