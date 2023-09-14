@@ -1,5 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import styles from '../views/Home.module.css' 
+import chatLogo from '../assets/chatgptLogo.svg'
+import addBtn from '../assets/add-30.png'
+import msgIcon from '../assets/message.svg'
+import home from '../assets/home.svg'
+import saved from '../assets/bookmark.svg'
+import rocket from '../assets/rocket.svg'
+import sendBtn from '../assets/send.svg'
+
 const Home = () => {
   const [value, setValue] = useState(null)
   const [message, setMessage] = useState(null)
@@ -66,29 +74,38 @@ const Home = () => {
   const currentChat = previousChat.filter(previous => previous.title === currentTitle)
   
   const uniqueTitles = Array.from(new Set(previousChat.map(previous => previous.title)))
-  const owner = '{6|9}'
-  console.log('value: ', value);
-  console.log('message: ', message);
-  console.log('previpreviousChat: ',previousChat);
+  const chat = 'Chat'
+  const owner = 'Oscar Warrieta'
+  // console.log('value: ', value);
+  // console.log('message: ', message);
+  // console.log('previpreviousChat: ',previousChat);
 
    return (
     <div className={styles.container}> 
     <section className={styles.sideBar}>
         <button
             onClick={createNewChat}
-        ><span>+</span>{' '}New chat</button>
+        ><span><img src={addBtn} alt='add logo' style={{width:'15px', paddingRight:'1rem'}}/></span>{' '}New chat</button>
         <ul className={styles.history}>
              {uniqueTitles?.map((uniqueTitle, index) => 
              <li 
                 key={index}
                 onClick={()=>handleClick(uniqueTitle)}
-                >{uniqueTitle}</li>)}
+                ><img src={msgIcon} alt='msg-icon' style={{marginRight:'2rem', height:'1.7rem'}}/> {uniqueTitle}</li>)}
         </ul>
-        <nav className={styles.nav}><p>Made by &copy;{owner}</p></nav>
+        <nav className={styles.nav}>
+            <div className='lowerSide'>
+                <div className='listItems'><img src={saved} alt='logo'className='iconImg'/> Saved</div>
+                <div className='listItems'><img src={home} alt='home logo' className='iconImg'/> Home</div>
+                <div className='listItems'><img src={rocket} alt='rocket' className='iconImg'/> Upgrade to Pro</div>
+            </div>
+
+            <p>Made by &copy;{owner}</p>
+        </nav>
     </section>
 
     <section className={styles.main}>
-        {!currentTitle && <h1>{owner}GPT</h1>}
+        {!currentTitle && <h1><img src={chatLogo} alt='logo'/> {chat}GPT</h1>}
         <ul className={styles.feed}>
             {error && <p className={styles.error}>Upss, Something went wrong!...</p>}
             {currentChat.map((chatMessage, index) => <li key={index}>
@@ -101,15 +118,18 @@ const Home = () => {
             <div className={styles.inputContainer}>
                 <input 
                  value={value}
+                 placeholder='Send a message'
                  onChange={e=>setValue(e.target.value)}
                 />
                 <div 
                     className={styles.submit}
                     onClick={getMessages}
-                    >➢</div>
+                    ><img src={sendBtn} alt='send icon' />
+                </div>
             </div>
             <p className={styles.info}>
-                Chat GPT academic version. Free Research Preview. ChatGPT July 8 version 
+                Free Research Preview. ChatGPT may produce innacurate information about people, places, or facts. 
+                <a href='https://help.openai.com/en/articles/6825453-chatgpt-release-notes' rel='noopener noreferrer'> ChatGPT August 3 Version </a>
             </p>
         </div>
     </section>
