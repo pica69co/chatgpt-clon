@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+// import { sendMsgToOpenAI } from '../../api/openai'
 import styles from '../views/Home.module.css' 
 import chatLogo from '../assets/chatgptLogo.svg'
 import addBtn from '../assets/add-30.png'
@@ -58,7 +59,7 @@ const Home = () => {
   }
 
   const createNewChat = () => {
-    console.log('clicked');
+    //console.log('clicked');
     setMessage(null)
     setValue("")
     setCurrentTitle(null)
@@ -107,7 +108,7 @@ const Home = () => {
     <section className={styles.main}>
         {!currentTitle && <h1><img src={chatLogo} alt='logo'/> {chat}GPT</h1>}
         <ul className={styles.feed}>
-            {error && <p className={styles.error}>Upss, Something went wrong!...</p>}
+            {error && <p className={styles.error}>Upss, Something went wrong! Or no credits</p>}
             {currentChat.map((chatMessage, index) => <li key={index}>
                 <p className={styles.rol}>{chatMessage.rol}</p>
                 <p className={styles.content}>{chatMessage.content}</p>
