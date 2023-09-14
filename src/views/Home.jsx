@@ -90,7 +90,10 @@ const Home = () => {
     <section className={styles.sideBar}>
         <button
             onClick={createNewChat}
-        ><span><img src={addBtn} alt='add logo' style={{width:'15px', paddingRight:'1rem'}}/></span>{' '}New chat</button>
+            ><span><img src={addBtn} alt='add logo' style={{width:'15px', paddingRight:'1rem'}}/></span>{' '}
+            New chat
+        </button>
+        
         <ul className={styles.history}>
              {uniqueTitles?.map((uniqueTitle, index) => 
              <li 
